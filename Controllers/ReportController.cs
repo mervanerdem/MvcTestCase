@@ -15,7 +15,7 @@ namespace MvcTestCase.Controllers
 
         public IActionResult Index()
         {
-            var testContext = _context.SPReportGetAllSalesDetail.FromSqlRaw("EXECUTE dbo.SPReportGetAllSalesDetail");
+            var testContext = _context.SPReportGetAllSalesDetails.FromSqlRaw("EXECUTE dbo.SPReportGetAllSalesDetail");
             return View(testContext);
         }
     }

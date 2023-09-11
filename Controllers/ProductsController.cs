@@ -49,7 +49,7 @@ namespace MvcTestCase.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id");
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id","Name");
             return View();
         }
 

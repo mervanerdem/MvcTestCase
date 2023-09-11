@@ -150,5 +150,5 @@ public partial class TestContext : DbContext
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
-    public DbSet<MvcTestCase.Models.SPReportGetAllSalesDetail> SPReportGetAllSalesDetail { get; set; } = default!;
+
 }
