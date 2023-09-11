@@ -3,6 +3,9 @@
 ###############################################################################
 * text=auto
 
+*.csharp linguist-detectable=true
+*.csharp linguist-language=sql
+
 ###############################################################################
 # Set default behavior for command prompt diff.
 #
