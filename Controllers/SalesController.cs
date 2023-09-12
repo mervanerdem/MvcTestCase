@@ -48,9 +48,22 @@ namespace MvcTestCase.Controllers
         // GET: Sales/Create
         public IActionResult Create()
         {
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Id");
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Id");
+            ViewData["Customer"] = new SelectList(_context.Customers, "Id", "Customertitle");
+            ViewData["Product"] = new SelectList(_context.Products, "Id", "Name");
+            ViewData["Listprice"] = null;
+            ViewData["CustomerNumber"] = null;
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult GetListprice(int productId)
+        {
+            var product = _context.Products.FirstOrDefault(p => p.Id == productId);
+            if (product != null)
+            {
+                return Json(product.Salesprice); // Listprice'i JSON formatında döndürün
+            }
+            return Json(null); // Ürün bulunamazsa null döndürün
         }
 
         // POST: Sales/Create

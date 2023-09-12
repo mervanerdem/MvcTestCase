@@ -18,7 +18,7 @@
 
         public double? Amount { get; set; }
 
-        public double? Listprice { get; set; }
+        public double? ListPrice { get; set; }
 
         public double? Discountrate { get; set; }
 
