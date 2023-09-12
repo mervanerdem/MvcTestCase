@@ -12,29 +12,17 @@
     <h4>Sale</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Quantity)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Customer)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Quantity)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Customer.Customertitle)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Salesprice)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Salesprice)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Amount)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Amount)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.Name)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Listprice)
@@ -43,23 +31,36 @@
             @Html.DisplayFor(model => model.Listprice)
         </dd>
         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Salesprice)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Salesprice)
+        </dd>
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Discountrate)
         </dt>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Discountrate)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Customer)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Date)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Customer.Id)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Date)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Product)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Product.Id)
-        </dd>
+
     </dl>
     
     <form asp-action="Delete">

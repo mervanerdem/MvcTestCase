@@ -48,8 +48,8 @@ namespace MvcTestCase.Controllers
         // GET: Purchases/Create
         public IActionResult Create()
         {
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Id");
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Id");
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Customertitle");
+            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name");
             return View();
         }
 
@@ -62,6 +62,27 @@ namespace MvcTestCase.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (purchase.Date == null)
+                {
+                    purchase.Date = DateTime.Now;
+                }
+                var stock = _context.Stocks.FirstOrDefault(s => s.ProductId == purchase.ProductId);
+                if(stock != null)
+                {
+                    stock.Quantity += purchase.Quantity;
+                    _context.Update(stock);
+                }
+                else
+                {
+                    stock = new Stock
+                    {
+                        ProductId = purchase.ProductId,
+                        Quantity = purchase.Quantity,
+                        Date = purchase.Date
+                    };
+                    _context.Add(stock);
+                }
+
                 _context.Add(purchase);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -84,8 +105,8 @@ namespace MvcTestCase.Controllers
             {
                 return NotFound();
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Id", purchase.CustomerId);
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Id", purchase.ProductId);
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Customertitle", purchase.CustomerId);
+            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name", purchase.ProductId);
             return View(purchase);
         }
 
@@ -105,6 +126,27 @@ namespace MvcTestCase.Controllers
             {
                 try
                 {
+                    var purchaseOld = _context.Purchases.AsNoTracking().FirstOrDefault(p => p.Id == purchase.Id);
+                    if (purchaseOld != null)
+                    {
+                        var stock = _context.Stocks.FirstOrDefault(s => s.ProductId == purchase.ProductId);
+                        if (stock != null)
+                        {
+                            stock.Quantity -= purchaseOld.Quantity;
+                            stock.Quantity += purchase.Quantity;
+                            _context.Update(stock);
+                        }
+                        else
+                        {
+                            stock = new Stock
+                            {
+                                ProductId = purchase.ProductId,
+                                Quantity = purchase.Quantity,
+                                Date = purchase.Date
+                            };
+                            _context.Add(stock);
+                        }
+                    }
                     _context.Update(purchase);
                     await _context.SaveChangesAsync();
                 }
@@ -158,6 +200,17 @@ namespace MvcTestCase.Controllers
             var purchase = await _context.Purchases.FindAsync(id);
             if (purchase != null)
             {
+                var stock = _context.Stocks.FirstOrDefault(s => s.ProductId == purchase.ProductId);
+                if (stock != null)
+                {
+                    if(stock.Quantity < purchase.Quantity)
+                    {
+                        return Problem("Stock quantity is less than purchase quantity.");
+                    }
+                    stock.Quantity -= purchase.Quantity;
+                    _context.Update(stock);
+                }
+
                 _context.Purchases.Remove(purchase);
             }
             

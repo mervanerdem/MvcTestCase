@@ -74,6 +74,10 @@ namespace MvcTestCase.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (sale.Date == null)
+                {
+                    sale.Date = DateTime.Now;
+                }
                 var stock = _context.Stocks.FirstOrDefault(s => s.ProductId == sale.ProductId);
                 if(stock == null || stock.Quantity < sale.Quantity)
                 {
@@ -83,6 +87,7 @@ namespace MvcTestCase.Controllers
                     return View(sale);
                 }
                 stock.Quantity -= sale.Quantity;
+                stock.Date = sale.Date;
                 _context.Update(stock);
                 _context.Add(sale);
                 await _context.SaveChangesAsync();
@@ -106,8 +111,8 @@ namespace MvcTestCase.Controllers
             {
                 return NotFound();
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Id", sale.CustomerId);
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Id", sale.ProductId);
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Customertitle", sale.CustomerId);
+            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name", sale.ProductId);
             return View(sale);
         }
 
@@ -127,6 +132,21 @@ namespace MvcTestCase.Controllers
             {
                 try
                 {
+                    var saleOld = _context.Sales.Where(p=> p.Id == sale.Id).AsNoTracking().FirstOrDefault();
+                    if(saleOld.Quantity != sale.Quantity)
+                    {
+                        var stock = _context.Stocks.FirstOrDefault(s => s.ProductId == sale.ProductId);
+                        if (stock == null || stock.Quantity < sale.Quantity - saleOld.Quantity)
+                        {
+                            ModelState.AddModelError("Quantity", "Stokta yeterli ürün yok.");
+                            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Id", sale.CustomerId);
+                            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Id", sale.ProductId);
+                            return View(sale);
+                        }
+                        stock.Quantity -= (sale.Quantity - saleOld.Quantity);
+                        stock.Date = sale.Date;
+                        _context.Update(stock);
+                    }
                     _context.Update(sale);
                     await _context.SaveChangesAsync();
                 }
@@ -180,6 +200,13 @@ namespace MvcTestCase.Controllers
             var sale = await _context.Sales.FindAsync(id);
             if (sale != null)
             {
+                var stock = _context.Stocks.FirstOrDefault(s => s.ProductId == sale.ProductId);
+                if (stock != null)
+                {
+                    stock.Quantity += sale.Quantity;
+                    _context.Update(stock);
+                }
+
                 _context.Sales.Remove(sale);
             }
             
