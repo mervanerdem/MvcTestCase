@@ -15,7 +15,9 @@ Kullanıcı satış ekranında, satışın kime yapıldığını karşısına ç
 Veri tabanındaki Purchase tablosu satın alma kayıtlarının tutulduğu tabloya karşılık gelmektedir. Bu tabloda ürünün alım fiyatı, kaç adet alındığı ve kimden alındığı gibi verilerin tutulduğu alanlar mevcuttur.
 Satışta olduğu gibi alımda da yapılan alıma ait verinin Stock tablosuna yazılması gerekmektedir. 
 
-
-
 ## 4.	Listeleme Ekranlarının Oluşturulması
 -	Stok Raporu: Ürünlerin Toplam Stok Durumunu gösteren bir rapor. 
+
+
+## Database dosyası
+[Database](https://github.com/mervanerdem/MvcTestCase/tree/master/Belgeler)
