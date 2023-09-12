@@ -48,10 +48,9 @@ namespace MvcTestCase.Controllers
         // GET: Sales/Create
         public IActionResult Create()
         {
-            ViewData["Customer"] = new SelectList(_context.Customers, "Id", "Customertitle");
-            ViewData["Product"] = new SelectList(_context.Products, "Id", "Name");
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Customertitle");
+            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name");
             ViewData["Listprice"] = null;
-            ViewData["CustomerNumber"] = null;
             return View();
         }
 
@@ -75,6 +74,16 @@ namespace MvcTestCase.Controllers
         {
             if (ModelState.IsValid)
             {
+                var stock = _context.Stocks.FirstOrDefault(s => s.ProductId == sale.ProductId);
+                if(stock == null || stock.Quantity < sale.Quantity)
+                {
+                    ModelState.AddModelError("Quantity", "Stokta yeterli ürün yok.");
+                    ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Id", sale.CustomerId);
+                    ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Id", sale.ProductId);
+                    return View(sale);
+                }
+                stock.Quantity -= sale.Quantity;
+                _context.Update(stock);
                 _context.Add(sale);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

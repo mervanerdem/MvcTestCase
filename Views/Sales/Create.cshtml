@@ -13,13 +13,13 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div class="form-group">
-                <label asp-for="Customer" class="control-label"></label>
-                <select asp-for="Customer" class="form-control" asp-items="ViewBag.Customer"></select>
+                <label asp-for="CustomerId" class="control-label"></label>
+                <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
             </div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Product" class="control-label"></label>
-                <select asp-for="Product" class ="form-control" asp-items="ViewBag.Product"></select>
+                <label asp-for="ProductId" class="control-label"></label>
+                <select asp-for="ProductId" class ="form-control" asp-items="ViewBag.ProductId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Listprice" class="control-label"></label>
@@ -65,8 +65,8 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            // Product dropdown değiştiğinde ve sayfa yüklendiğinde
-            $("#Product").on('change load', function () {
+            // ProductId dropdown değiştiğinde ve sayfa yüklendiğinde
+            $("#ProductId").on('change load', function () {
                 var selectedProductId = $(this).val(); // Seçilen ürünün Id'sini alın
                 if (selectedProductId) {
                     $.ajax({
@@ -88,7 +88,7 @@
             });
 
             // Sayfa yüklendiğinde ProductId dropdown'un değerini kontrol edin ve uygun işlemi yapın
-            $("#Product").trigger('change');
+            $("#ProductId").trigger('change');
         });
     </script>
 
