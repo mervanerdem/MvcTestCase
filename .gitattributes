@@ -4,7 +4,7 @@
 * text=auto
 
 *.cs linguist-detectable=true
-*.cs linguist-language=csharp
+*.cs linguist-language=C#
 
 *.js linguist-detectable=false
 
