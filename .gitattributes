@@ -7,6 +7,7 @@
 *.cs linguist-language=C#
 
 *.js linguist-detectable=false
+*.css linguist-detectable=false
 
 ###############################################################################
 # Set default behavior for command prompt diff.
